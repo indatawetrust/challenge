@@ -7,7 +7,8 @@
     "dev-app": "cd frontend && yarn start",
     "dev": "NODE_ENV=dev concurrently 'npm run dev-api' 'npm run dev-app'",
     "build": "cd frontend && yarn build",
-    "prod": "NODE_ENV=prod node ./bin/www"
+    "prod": "NODE_ENV=prod node ./bin/www",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "axios": "^0.19.0",
