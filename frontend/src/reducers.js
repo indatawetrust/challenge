@@ -2,7 +2,8 @@ import {combineReducers} from 'redux'
 
 function tasks(state = {
   data: [],
-  pending: false
+  pending: false,
+  topPending: false,
 }, action) {
   switch (action.type) {
     // GET TASK
@@ -27,7 +28,7 @@ function tasks(state = {
     case 'ADD_TASK_PENDING':
       return {
         ...state,
-        pending: true,
+        topPending: true,
       }
     case 'ADD_TASK_FULFILLED':
       return {
@@ -36,18 +37,19 @@ function tasks(state = {
           action.payload.data,
           ...state.data
         ],
-        pending: false
+        topPending: false
       }
     case 'ADD_TASK_REJECTED':
       return {
         ...state,
-        pending: false,
+        topPending: false,
         error: action.payload
       }
-    // ADD TASK
+    // UPDATE TASK
     case 'UPDATE_TASK_PENDING':
       return {
         ...state,
+        topPending: true,
       }
     case 'UPDATE_TASK_FULFILLED':
       state.data = state.data.map(task => {
@@ -59,16 +61,19 @@ function tasks(state = {
 
       return {
         ...state,
+        topPending: false,
       }
     case 'UPDATE_TASK_REJECTED':
       return {
         ...state,
+        topPending: false,
         error: action.payload
       }
     // DELETE TASK
     case 'DELETE_TASK_PENDING':
       return {
         ...state,
+        topPending: true,
       }
     case 'DELETE_TASK_FULFILLED':
       state.data = state.data.filter(task => {
@@ -77,10 +82,12 @@ function tasks(state = {
 
       return {
         ...state,
+        topPending: false,
       }
     case 'DELETE_TASK_REJECTED':
       return {
         ...state,
+        topPending: false,
         error: action.payload
       }
     default:
