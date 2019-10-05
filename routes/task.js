@@ -8,9 +8,7 @@ const {Task} = models;
 router.get('/', function(req, res, next) {
   Task.find()
     .then(tasks => {
-      res.json({
-        data: tasks,
-      });
+      res.json(tasks);
     })
     .catch(error => next(error));
 });
