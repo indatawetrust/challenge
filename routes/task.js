@@ -13,4 +13,18 @@ router.get('/', function(req, res, next) {
     .catch(error => next(error));
 });
 
+router.post('/', function(req, res, next) {
+  const {text} = req.body;
+
+  const task = new Task({
+    text
+  })
+
+  task.save()
+    .then(task => {
+      res.json(task);
+    })
+    .catch(error => next(error));
+});
+
 module.exports = router;

@@ -10,7 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
-const TaskList = ({tasks, pending, fetchTasks}) => {
+const TaskList = ({tasks, pending, fetchTasks, createTask}) => {
   useEffect(
     () => {
       fetchTasks();
@@ -34,8 +34,15 @@ const TaskList = ({tasks, pending, fetchTasks}) => {
           InputLabelProps={{
             shrink: true,
           }}
-          onInput={e => {
-            e.preventDefault()
+          onKeyDown={e => {
+
+            const {value} = e.target
+
+            if (e.keyCode === 13 && value.trim().length) {
+              createTask(value)
+
+              e.target.value = ''
+            }
           }}
         />
         <List>

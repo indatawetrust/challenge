@@ -6,3 +6,9 @@ axios.defaults.baseURL = process.env.REACT_APP_API;
 export const getTasks = createAsyncAction('GET_TASKS', () => (
   axios.get('/task')
 ));
+
+export const addTask = createAsyncAction('ADD_TASK', text => (
+  axios.post('/task', {
+    text
+  })
+));
