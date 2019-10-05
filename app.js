@@ -11,20 +11,20 @@ var taskRouter = require('./routes/task');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
 app.use(logger('dev'));
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/task', taskRouter);
+
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
