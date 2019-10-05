@@ -8,6 +8,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 const TaskList = ({tasks, pending, fetchTasks}) => {
   useEffect(
@@ -24,6 +25,19 @@ const TaskList = ({tasks, pending, fetchTasks}) => {
   return (
     <Grid container spacing={2} alignItems="center" justify="center">
       <Grid md={8} lg={6} sm={12} xs={12}>
+        <TextField
+          id="standard-full-width"
+          style={{margin: 8}}
+          placeholder="new task..."
+          fullWidth
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onInput={e => {
+            e.preventDefault()
+          }}
+        />
         <List>
           {tasks.map(task => {
             return (
