@@ -3,14 +3,22 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev-api": "nodemon ./bin/www",
+    "dev": "NODE_ENV=dev concurrently 'npm run dev-api'"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^8.1.0",
     "ejs": "~2.5.7",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
+    "mongoose": "^5.7.3",
     "morgan": "~1.9.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.2",
+    "nodemon": "^1.19.3"
   }
 }
