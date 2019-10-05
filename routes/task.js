@@ -17,10 +17,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  const {text} = req.body;
+  const {text, deadline} = req.body;
 
   const task = new Task({
     text,
+    deadline
   });
 
   task

@@ -8,6 +8,9 @@ const taskSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  deadline: {
+    type: Date,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

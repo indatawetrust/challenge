@@ -7,9 +7,10 @@ export const getTasks = createAsyncAction('GET_TASKS', () => (
   axios.get('/task')
 ));
 
-export const addTask = createAsyncAction('ADD_TASK', text => (
+export const addTask = createAsyncAction('ADD_TASK', (text, deadline) => (
   axios.post('/task', {
-    text
+    text,
+    deadline
   })
 ));
 

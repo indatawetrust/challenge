@@ -13,7 +13,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchTasks: () => dispatch(getTasks()),
-    createTask: (text) => dispatch(addTask(text)),
+    createTask: (text, deadline) => dispatch(addTask(text, deadline)),
     changeTask: (id, completed) => dispatch(updateTask(id, completed)),
     removeTask: (id) => dispatch(deleteTask(id)),
   }

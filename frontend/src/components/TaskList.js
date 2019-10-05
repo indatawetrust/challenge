@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import Loader from 'react-loader-spinner';
 import List from '@material-ui/core/List';
@@ -13,6 +13,11 @@ import { makeStyles } from '@material-ui/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import MoodIcon from '@material-ui/icons/Mood';
+import {
+  DateTimePicker,
+} from "@material-ui/pickers";
+import Button from '@material-ui/core/Button';
+import moment from 'moment';
 
 const useStyles = makeStyles({
   container: {
@@ -40,11 +45,26 @@ const useStyles = makeStyles({
     width: 100,
     height: 100,
     color: '#ccc'
+  },
+  completed: {
+    color: '#2ecc71',
+  },
+  uncompleted: {
+    color: '#34495e',
   }
 });
 
 const TaskList = ({tasks, pending, error, fetchTasks, createTask, changeTask, removeTask, ...props}) => {
   const classes = useStyles(props);
+
+  const [text, setText] = useState('');
+  const [deadline, setDeadline] = useState(new Date());
+
+  function saveTask() {
+    if (text.trim().length) {
+      createTask(text, deadline)
+    }
+  }
 
   useEffect(
     () => {
@@ -55,7 +75,7 @@ const TaskList = ({tasks, pending, error, fetchTasks, createTask, changeTask, re
 
   return (
     <Grid container spacing={2} alignItems="center" justify="center" className={classes.container}>
-      <Grid md={8} lg={6} sm={10} xs={10} className={classes.taskApp}>
+      <Grid item md={8} lg={6} sm={10} xs={10} className={classes.taskApp}>
         <TextField
           id="standard-full-width"
           placeholder="new task..."
@@ -64,25 +84,36 @@ const TaskList = ({tasks, pending, error, fetchTasks, createTask, changeTask, re
           InputLabelProps={{
             shrink: true,
           }}
+          value={text}
+          onInput={e => setText(e.target.value)}
           onKeyDown={e => {
-
             const {value} = e.target
 
             if (e.keyCode === 13 && value.trim().length) {
-              createTask(value)
+              saveTask()
 
               e.target.value = ''
             }
           }}
           className={classes.textInput}
         />
+        <Grid container>
+          <Grid item xs={9}>
+            <DateTimePicker label="deadline" fullWidth value={deadline} onChange={deadline => setDeadline(deadline)} />
+          </Grid>
+          <Grid item xs={3}>
+            <Button variant="contained" onClick={saveTask} size="small" fullWidth color="primary">
+              save
+            </Button>
+          </Grid>
+        </Grid>
         <List className={classes.taskList} style={{
-          height: `${window.innerHeight - 150}px`
+          height: `${window.innerHeight - 180}px`
         }}>
           {
             pending
             &&
-            <Loader type="Bubble" color="#555" height={50} width={50} />
+            <Loader type="Circles" color="#555" height={50} width={50} />
           }
           {
             (!pending && !tasks.length)
@@ -96,7 +127,7 @@ const TaskList = ({tasks, pending, error, fetchTasks, createTask, changeTask, re
             ?
             tasks.map(task => {
               return (
-                <ListItem key={task._id} className={classes.taskListItem} dense button onClick={e => {
+                <ListItem key={task._id} className={[classes.taskListItem, task.completed ? classes.completed : classes.uncompleted].join(' ')} dense button onClick={e => {
                   e.preventDefault()
 
                   changeTask(task._id, !task.completed)
@@ -114,7 +145,11 @@ const TaskList = ({tasks, pending, error, fetchTasks, createTask, changeTask, re
                       }}
                     />
                   </ListItemIcon>
-                  <ListItemText id={1} primary={task.text} />
+                  <ListItemText primary={task.text} secondary={
+                    (new Date(task.deadline) > new Date() && !task.completed)
+                    &&
+                    `This work must be completed ${moment(task.deadline).fromNow()}`
+                  } />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete" onClick={e => {
 

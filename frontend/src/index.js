@@ -7,6 +7,8 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
 import todoApp from './reducers';
+import MomentUtils from '@date-io/moment';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const composeStoreWithMiddleware = applyMiddleware(promiseMiddleware)(
   createStore,
@@ -16,7 +18,9 @@ const store = composeStoreWithMiddleware(todoApp);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <App />
+    </MuiPickersUtilsProvider>
   </Provider>,
   document.getElementById('root'),
 );
