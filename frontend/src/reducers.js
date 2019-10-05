@@ -1,18 +1,12 @@
 import { combineReducers } from 'redux'
-import {
-  ADD_TASK,
-} from './actions'
 
-function tasks(state = [], action) {
+function tasks(state = { data: [] }, action) {
   switch (action.type) {
-    case ADD_TASK:
-      return [
+    case 'GET_TASKS_FULFILLED':
+      return {
         ...state,
-        {
-          text: action.text,
-          completed: false
-        }
-      ]
+        data: action.payload.data
+      }
     default:
       return state
   }

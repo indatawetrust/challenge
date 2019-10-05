@@ -3,6 +3,8 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var path = require('path');
+var bodyParser = require('body-parser')
+var cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var taskRouter = require('./routes/task');
@@ -14,6 +16,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
+app.use(bodyParser());
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

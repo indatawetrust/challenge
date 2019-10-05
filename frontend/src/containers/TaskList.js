@@ -1,18 +1,17 @@
 import { connect } from 'react-redux'
+import { getTasks } from '../actions'
 import TaskList from '../components/TaskList'
 
 const mapStateToProps = state => {
   return {
-    tasks: [{
-      text: 'hello world',
-      completed: false,
-      _id: '12'
-    }]
+    tasks: state.tasks.data
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {
+    fetchTasks: () => dispatch(getTasks())
+  }
 }
 
 const VisibleTaskList = connect(

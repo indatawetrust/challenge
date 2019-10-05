@@ -1,13 +1,6 @@
-/*
- * action types
- */
+import { createAsyncAction } from 'redux-promise-middleware-actions';
 
-export const ADD_TASK = 'ADD_TASK'
-
-/*
- * action creators
- */
-
-export function addTask(text) {
-  return { type: ADD_TASK, text }
-}
+export const getTasks = createAsyncAction('GET_TASKS', () => (
+  fetch('http://localhost:3001/task')
+    .then((response) => response.json())
+));
