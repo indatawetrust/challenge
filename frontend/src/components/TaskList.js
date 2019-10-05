@@ -84,12 +84,11 @@ const TaskList = ({tasks, pending, error, fetchTasks, createTask, changeTask, re
           InputLabelProps={{
             shrink: true,
           }}
-          value={text}
           onInput={e => setText(e.target.value)}
           onKeyDown={e => {
             const {value} = e.target
 
-            if (e.keyCode === 13 && value.trim().length) {
+            if (e.keyCode === 13) {
               saveTask()
 
               e.target.value = ''
