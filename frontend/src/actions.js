@@ -18,3 +18,7 @@ export const updateTask = createAsyncAction('UPDATE_TASK', (id, completed) => (
     completed
   })
 ));
+
+export const deleteTask = createAsyncAction('DELETE_TASK', (id) => (
+  axios.delete(`/task/${id}`)
+));

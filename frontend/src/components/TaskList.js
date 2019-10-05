@@ -10,6 +10,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/styles';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import MoodIcon from '@material-ui/icons/Mood';
 
 const useStyles = makeStyles({
   container: {
@@ -32,10 +35,15 @@ const useStyles = makeStyles({
   },
   textInput: {
     margin: '9px 0'
+  },
+  noDataIcon: {
+    width: 100,
+    height: 100,
+    color: '#ccc'
   }
 });
 
-const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask, ...props}) => {
+const TaskList = ({tasks, pending, error, fetchTasks, createTask, changeTask, removeTask, ...props}) => {
   const classes = useStyles(props);
 
   useEffect(
@@ -77,8 +85,15 @@ const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask, ...props}
             <Loader type="Bubble" color="#555" height={50} width={50} />
           }
           {
-            !pending
-            &&
+            (!pending && !tasks.length)
+            ?
+            (
+              <MoodIcon className={classes.noDataIcon}/>
+            ):null
+          }
+          {
+            (!pending && tasks.length)
+            ?
             tasks.map(task => {
               return (
                 <ListItem key={task._id} className={classes.taskListItem} dense button onClick={e => {
@@ -100,9 +115,20 @@ const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask, ...props}
                     />
                   </ListItemIcon>
                   <ListItemText id={1} primary={task.text} />
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete" onClick={e => {
+
+                      e.preventDefault()
+
+                      removeTask(task._id)
+
+                    }}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
                 </ListItem>
               );
-            })
+            }):null
           }
         </List>
       </Grid>

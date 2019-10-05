@@ -65,6 +65,24 @@ function tasks(state = {
         ...state,
         error: action.payload
       }
+    // DELETE TASK
+    case 'DELETE_TASK_PENDING':
+      return {
+        ...state,
+      }
+    case 'DELETE_TASK_FULFILLED':
+      state.data = state.data.filter(task => {
+        return task._id !== action.payload.data._id;
+      })
+
+      return {
+        ...state,
+      }
+    case 'DELETE_TASK_REJECTED':
+      return {
+        ...state,
+        error: action.payload
+      }
     default:
       return state
   }
