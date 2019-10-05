@@ -9,8 +9,35 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/styles';
 
-const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask}) => {
+const useStyles = makeStyles({
+  container: {
+    margin: '1rem 0',
+  },
+  taskApp: {
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    padding: '1rem',
+    boxShadow: '0 0 2.5px #555',
+    borderRadius: '2.5px'
+  },
+  taskList: {
+    height: '500px',
+    overflowY: 'scroll',
+    border: '1px solid #ccc',
+    padding: '1rem'
+  },
+  taskListItem: {
+    borderBottom: '1px solid #ccc'
+  },
+  textInput: {
+    margin: '9px 0'
+  }
+});
+
+const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask, ...props}) => {
+  const classes = useStyles(props);
+
   useEffect(
     () => {
       fetchTasks();
@@ -19,11 +46,10 @@ const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask}) => {
   );
 
   return (
-    <Grid container spacing={2} alignItems="center" justify="center">
-      <Grid md={8} lg={6} sm={12} xs={12}>
+    <Grid container spacing={2} alignItems="center" justify="center" className={classes.container}>
+      <Grid md={8} lg={6} sm={10} xs={10} className={classes.taskApp}>
         <TextField
           id="standard-full-width"
-          style={{margin: 8}}
           placeholder="new task..."
           fullWidth
           margin="normal"
@@ -40,8 +66,11 @@ const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask}) => {
               e.target.value = ''
             }
           }}
+          className={classes.textInput}
         />
-        <List>
+        <List className={classes.taskList} style={{
+          height: `${window.innerHeight - 150}px`
+        }}>
           {
             pending
             &&
@@ -52,7 +81,7 @@ const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask}) => {
             &&
             tasks.map(task => {
               return (
-                <ListItem key={task._id} dense button onClick={e => {
+                <ListItem key={task._id} className={classes.taskListItem} dense button onClick={e => {
                   e.preventDefault()
 
                   changeTask(task._id, !task.completed)
