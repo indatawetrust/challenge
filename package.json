@@ -6,7 +6,7 @@
     "dev-api": "nodemon ./bin/www --ignore 'frontend'",
     "dev-app": "cd frontend && npm run start",
     "dev": "NODE_ENV=dev concurrently 'npm run dev-api' 'npm run dev-app'",
-    "build": "cd frontend && npm run build",
+    "build": "cd frontend && npm install --only=dev && npm install && npm run build",
     "prod": "NODE_ENV=prod node ./bin/www",
     "heroku-postbuild": "npm run build"
   },
