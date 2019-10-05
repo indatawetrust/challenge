@@ -12,3 +12,9 @@ export const addTask = createAsyncAction('ADD_TASK', text => (
     text
   })
 ));
+
+export const updateTask = createAsyncAction('UPDATE_TASK', (id, completed) => (
+  axios.put(`/task/${id}`, {
+    completed
+  })
+));

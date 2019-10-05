@@ -27,4 +27,23 @@ router.post('/', function(req, res, next) {
     .catch(error => next(error));
 });
 
+router.put('/:id', function(req, res, next) {
+  const {id} = req.params;
+  const {completed} = req.body;
+
+  Task.findOneAndUpdate({
+    _id: id
+  }, {
+    $set: {
+      completed
+    }
+  }, {
+    new: true
+  })
+    .then(task => {
+      res.json(task);
+    })
+    .catch(error => next(error));
+});
+
 module.exports = router;

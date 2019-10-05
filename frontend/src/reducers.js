@@ -5,6 +5,7 @@ function tasks(state = {
   pending: false
 }, action) {
   switch (action.type) {
+    // GET TASK
     case 'GET_TASKS_PENDING':
       return {
         ...state,
@@ -22,6 +23,7 @@ function tasks(state = {
         pending: false,
         error: action.payload
       }
+    // ADD TASK
     case 'ADD_TASK_PENDING':
       return {
         ...state,
@@ -40,6 +42,27 @@ function tasks(state = {
       return {
         ...state,
         pending: false,
+        error: action.payload
+      }
+    // ADD TASK
+    case 'UPDATE_TASK_PENDING':
+      return {
+        ...state,
+      }
+    case 'UPDATE_TASK_FULFILLED':
+      state.data = state.data.map(task => {
+        if (task._id === action.payload.data._id) {
+          return action.payload.data
+        }
+        return task
+      })
+
+      return {
+        ...state,
+      }
+    case 'UPDATE_TASK_REJECTED':
+      return {
+        ...state,
         error: action.payload
       }
     default:

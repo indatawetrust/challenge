@@ -10,17 +10,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
-const TaskList = ({tasks, pending, fetchTasks, createTask}) => {
+const TaskList = ({tasks, pending, fetchTasks, createTask, changeTask}) => {
   useEffect(
     () => {
       fetchTasks();
     },
     [fetchTasks],
   );
-
-  if (pending) {
-    return <Loader type="Bubble" color="#00BFFF" height={100} width={100} />;
-  }
 
   return (
     <Grid container spacing={2} alignItems="center" justify="center">
@@ -46,21 +42,39 @@ const TaskList = ({tasks, pending, fetchTasks, createTask}) => {
           }}
         />
         <List>
-          {tasks.map(task => {
-            return (
-              <ListItem key={task._id} role={undefined} dense button>
-                <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    checked={false}
-                    tabIndex={-1}
-                    disableRipple
-                  />
-                </ListItemIcon>
-                <ListItemText id={1} primary={task.text} />
-              </ListItem>
-            );
-          })}
+          {
+            pending
+            &&
+            <Loader type="Bubble" color="#555" height={50} width={50} />
+          }
+          {
+            !pending
+            &&
+            tasks.map(task => {
+              return (
+                <ListItem key={task._id} dense button onClick={e => {
+                  e.preventDefault()
+
+                  changeTask(task._id, !task.completed)
+                }}>
+                  <ListItemIcon>
+                    <Checkbox
+                      edge="start"
+                      checked={task.completed}
+                      tabIndex={-1}
+                      disableRipple
+                      onChange={e => {
+                        e.preventDefault()
+
+                        changeTask(task._id, e.target.checked)
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText id={1} primary={task.text} />
+                </ListItem>
+              );
+            })
+          }
         </List>
       </Grid>
     </Grid>
