@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev-api": "nodemon ./bin/www --ignore 'frontend'",
-    "dev-app": "cd frontend && yarn start",
+    "dev-app": "cd frontend && npm run start",
     "dev": "NODE_ENV=dev concurrently 'npm run dev-api' 'npm run dev-app'",
-    "build": "cd frontend && yarn build",
+    "build": "cd frontend && npm run build",
     "prod": "NODE_ENV=prod node ./bin/www",
     "heroku-postbuild": "npm run build"
   },
