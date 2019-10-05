@@ -4,7 +4,9 @@ import TaskList from '../components/TaskList'
 
 const mapStateToProps = state => {
   return {
-    tasks: state.tasks.data
+    tasks: state.tasks.data,
+    pending: state.tasks.pending,
+    error: state.tasks.error,
   }
 }
 
