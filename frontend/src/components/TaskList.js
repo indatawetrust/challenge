@@ -20,7 +20,8 @@ import LoadingBar from 'react-top-loading-bar';
 
 const useStyles = makeStyles({
   container: {
-    margin: '1rem 0',
+    margin: '0rem 0',
+    width: '100%'
   },
   taskApp: {
     backgroundColor: 'rgba(255,255,255,0.8)',
